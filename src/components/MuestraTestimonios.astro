@@ -1,0 +1,71 @@
+---
+import Cards from "./Cards.astro"
+---
+
+<!--cards-->
+<div class="relative mx-10 mt-70 p-10 border-t border-x border-white/20 rounded-t-4xl overflow-hidden z-10">
+
+    <!-- Halo animado solo en el borde -->
+    <div class="pointer-events-none absolute inset-0 rounded-t-4 animate-spin-slow z-0"
+         style="
+           background: conic-gradient(from 0deg, #ffffff55 0deg, transparent 90deg, #ffffff55 180deg, transparent 270deg, #ffffff55 360deg);
+           -webkit-mask: 
+             linear-gradient(#000 0 0) content-box, 
+             linear-gradient(#000 0 0);
+           -webkit-mask-composite: xor;
+           mask-composite: exclude;
+           padding: 2px;
+         ">
+    </div>
+  
+    <!-- Contenido real -->
+    <div class="relative z-10">
+      <strong class="flex justify-center text-3xl text-white font-bold mb-1">
+        Proyectos
+      </strong>
+  
+      <!-- Línea decorativa -->
+      <div class="flex justify-center mb-10">
+        <div class="h-[2px] w-32 bg-white/60 rounded-full"></div>
+      </div>
+  
+      <section
+        id="muestra"
+        class="mt-10 flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-4"
+      >
+        <Cards
+          href="#muestra"
+          image="https://framerusercontent.com/assets/z0uwRhQMdFZ3TgjIX7bI3JrX3w.mp4"
+          role="Developer"
+          name="Ricardo Toscano"
+          description="Abogado, ladrón de gallinas y manchador de papeles"
+        />
+        <!-- Otros cards... -->
+        <Cards
+        href="#muestra"
+        image="https://framerusercontent.com/assets/z0uwRhQMdFZ3TgjIX7bI3JrX3w.mp4"
+        role="Developer"
+        name="Ricardo Toscano"
+        description="Abogado, ladrón de gallinas y manchador de papeles"
+        />
+        <Cards
+          href="#muestra"
+          image="https://framerusercontent.com/assets/z0uwRhQMdFZ3TgjIX7bI3JrX3w.mp4"
+          role="Developer"
+          name="Ricardo Toscano"
+          description="Abogado, ladrón de gallinas y manchador de papeles"
+        />
+        <Cards
+          href="#muestra"
+          image="https://framerusercontent.com/assets/z0uwRhQMdFZ3TgjIX7bI3JrX3w.mp4"
+          role="Developer"
+          name="Ricardo Toscano"
+          description="Abogado, ladrón de gallinas y manchador de papeles"
+        />
+      </section>
+    </div>
+  </div>
+  <div class="h-100 w-1 bg-white mt-100">
+    
+  </div>
+  

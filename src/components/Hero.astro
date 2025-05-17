@@ -1,0 +1,38 @@
+---
+import Toph1 from "./Toph1.astro";
+import Button from "./Button.astro";
+---
+
+<section class="px-4 sm:px-8 md:px-12 lg:px-20 py-5">
+    <!-- CENTERED LOGO W LINES -->
+    <span class="flex items-center py-4">
+        <span class="h-[1px] flex-1 bg-gray-300 dark:bg-gray-600"></span>
+        <span class="shrink-0 px-4">
+            <img
+                class="w-24 py-2 mx-auto"
+                src="https://framerusercontent.com/images/68d9W0p2L3PNaPy4Zg5IjWABE.png"
+                alt="logo"
+            />
+        </span>
+        <span class="h-[1px] flex-1 bg-gray-300 dark:bg-gray-600"></span>
+    </span>
+
+    <!-- TITLE AND SUBTITLE -->
+    <div class="flex flex-col items-center text-center mt-40">
+        <Toph1 />
+        <h1 class="text-2xl sm:text-3xl font-bold pt-4 px-2">
+            ¿Ocupás mucho tiempo con la creación de contenido?
+        </h1>
+        <strong class="mt-2 text-base sm:text-lg px-2"
+            >Nosotros nos encargamos de su automatización</strong
+        >
+    </div>
+
+    <!-- GUIDE BUTTONS -->
+    <section class="flex flex-wrap flex-row items-center justify-center mt-40 w-full gap-5">
+        <Button href="../#MuestraTestimonios" text="Proyectos" />
+        <Button href="#" text="Testimonios" />
+        <Button href="#" text="FAQ's" />
+        <Button href="#" text="Empezar" />
+    </section>
+</section>

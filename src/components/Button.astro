@@ -1,0 +1,27 @@
+---
+export interface Props {
+  href: string;
+  text: string;
+}
+
+const { href, text } = Astro.props;
+---
+
+<a
+  href={href}
+  class="relative inline-block px-8 py-3 rounded-xl bg-black/70 border border-white text-white font-semibold text-base overflow-hidden backdrop-blur-xl group
+         shadow-[0_0_12px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,255,255,0.25)] transition-shadow duration-300"
+>
+  <!-- Halo animado más tenue -->
+  <span class="absolute inset-5 rounded-2xl bg-white opacity-[0.15] blur-lg animate-spin pointer-events-none"></span>
+
+  <!-- Brillos sutiles en esquinas -->
+  <span class="absolute top-2 right-5 w-10 h-2 bg-white rounded-full blur-xl opacity-70 group-hover:opacity-50 transition-all duration-300 inset-20 animate-spin"></span>
+  <span class="absolute bottom-1 left-1 w-9 h-6 bg-white rounded-full blur-xl opacity-30 group-hover:opacity-50 transition-all duration-300"></span>
+
+  <!-- Brillos secundarios más suaves -->
+  <span class="absolute top-1 left-1 w-6 h-4 bg-white rounded-full blur-xl opacity-15 group-hover:opacity-30 transition-all duration-300"></span>
+  <span class="absolute bottom-1 right-1 w-6 h-4 bg-white rounded-full blur-xl opacity-15 group-hover:opacity-30 transition-all duration-300"></span>
+
+  <span class="relative z-10">{text}</span>
+</a>
