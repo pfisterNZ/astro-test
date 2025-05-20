@@ -9,7 +9,7 @@ export default defineConfig({
   outDir: "dist",
 
   site: "https://pfisterNZ.github.io",
-  base: "astro-test",
+  base: "/astro-test",
 
   vite: {
     plugins: [tailwindcss()],
