@@ -1,17 +1,14 @@
 ---
-// Cards.astro
 export interface Props {
-  href: string
   image: string
   role: string
   name: string
   description: string
 }
 
-const { href, image, role, name, description } = Astro.props
+const { image, role, name, description } = Astro.props
 ---
-
-<a href={href} class="group relative block bg-black rounded-2xl overflow-hidden aspect-[9/16] w-full max-w-xs mx-auto">
+<div class="group relative block bg-black rounded-2xl overflow-hidden aspect-[9/16] w-full max-w-xs mx-auto">
   <video
     autoplay
     loop
@@ -37,4 +34,4 @@ const { href, image, role, name, description } = Astro.props
       </div>
     </div>
   </div>
-</a>
+</div> 

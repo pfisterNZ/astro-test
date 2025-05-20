@@ -1,0 +1,68 @@
+---
+export interface FaqItem {
+  pregunta: string;
+  respuesta: string | string[];
+}
+export interface Props {
+  faqs: FaqItem[];
+}
+const { faqs } = Astro.props;
+---
+<div class="w-full flex flex-col gap-6">
+  {faqs.map((faq, idx) => (
+    <details class="bg-[#181818] rounded-2xl p-6 text-white group transition-all duration-500 faq-item" onclick="this.classList.add('bubble'); setTimeout(()=>this.classList.remove('bubble'),350)">
+      <summary class="flex justify-between items-center cursor-pointer text-lg font-semibold select-none">
+        <span>{faq.pregunta}</span>
+        <span class="text-2xl text-gray-400 group-open:rotate-45 transition-transform">×</span>
+      </summary>
+      <div class="faq-content mt-4 text-gray-300 text-base transition-all duration-500 overflow-hidden">
+        {Array.isArray(faq.respuesta)
+          ? <ul class="list-decimal ml-5">{faq.respuesta.map(r => <li>{r}</li>)}</ul>
+          : <span>{faq.respuesta}</span>
+        }
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+details[open] summary span:last-child {
+  transform: rotate(45deg);
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-content {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+details[open] .faq-content {
+  max-height: 500px;
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .faq-grid {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+.faq-item {
+  transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s cubic-bezier(.4,0,.2,1);
+}
+.faq-item:hover {
+  transform: scale(0.97);
+  box-shadow: 0 4px 32px 0 rgba(255,255,255,0.08);
+}
+.faq-item.bubble {
+  animation: bubble-pop 0.35s cubic-bezier(.4,0,.2,1);
+}
+@keyframes bubble-pop {
+  0% { transform: scale(0.97); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+</style> 

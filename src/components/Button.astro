@@ -11,6 +11,7 @@ const { href, text } = Astro.props;
   href={href}
   class="relative inline-block px-8 py-3 rounded-xl bg-black/70 border border-white text-white font-semibold text-base overflow-hidden backdrop-blur-xl group
          shadow-[0_0_12px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,255,255,0.25)] transition-shadow duration-300"
+  onclick={text === "Proyectos" ? "event.preventDefault(); const element = document.getElementById('proyectos'); const offset = 200; const bodyRect = document.body.getBoundingClientRect().top; const elementRect = element.getBoundingClientRect().top; const elementPosition = elementRect - bodyRect; const offsetPosition = elementPosition - offset; window.scrollTo({top: offsetPosition, behavior: 'smooth'});" : ""}
 >
   <!-- Halo animado más tenue -->
   <span class="absolute inset-5 rounded-2xl bg-white opacity-[0.15] blur-lg animate-spin pointer-events-none"></span>
@@ -24,4 +25,4 @@ const { href, text } = Astro.props;
   <span class="absolute bottom-1 right-1 w-6 h-4 bg-white rounded-full blur-xl opacity-15 group-hover:opacity-30 transition-all duration-300"></span>
 
   <span class="relative z-10">{text}</span>
-</a>
+</a> 

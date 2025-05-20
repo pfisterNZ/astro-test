@@ -1,0 +1,338 @@
+<div id="webgl-bg-wrapper">
+  <canvas id="webgl-canvas"></canvas>
+</div>
+
+<script>
+  import * as THREE from 'three';
+
+  interface StageParams {
+    clearColor: number;
+    width: number;
+    height: number;
+  }
+
+  interface CameraParams {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+    near: number;
+    far: number;
+  }
+
+  interface Stage {
+    renderParam: StageParams;
+    cameraParam: CameraParams;
+    scene: THREE.Scene | null;
+    camera: THREE.OrthographicCamera | null;
+    renderer: THREE.WebGLRenderer | null;
+    geometry: THREE.BufferGeometry | null;
+    material: THREE.Material | null;
+    mesh: THREE.Mesh | null;
+    isInitialized: boolean;
+    init(): void;
+    _setScene(): void;
+    _setRender(): void;
+    _setCamera(): void;
+    _render(): void;
+    onResize(): void;
+    onRaf(): void;
+  }
+
+  interface MeshUniforms {
+    resolution: { type: string; value: number[] };
+    time: { type: string; value: number };
+    xScale: { type: string; value: number };
+    yScale: { type: string; value: number };
+    distortion: { type: string; value: number };
+  }
+
+  interface Mesh {
+    canvas: HTMLCanvasElement;
+    canvasWidth: number;
+    canvasHeight: number;
+    uniforms: MeshUniforms;
+    stage: Stage;
+    mesh: THREE.Mesh | null;
+    xScale: number;
+    yScale: number;
+    distortion: number;
+    init(): void;
+    _setMesh(): void;
+    _render(): void;
+    onRaf(): void;
+  }
+
+  function handleResponsiveBG() {
+    const wrapper = document.getElementById('webgl-bg-wrapper');
+    const canvas = document.getElementById('webgl-canvas');
+    if (window.innerWidth < 500) {
+      if (canvas) canvas.style.display = 'none';
+      if (wrapper) wrapper.style.background = '#000';
+    } else {
+      if (canvas) canvas.style.display = 'block';
+      if (wrapper) wrapper.style.background = 'none';
+    }
+  }
+
+  window.addEventListener('resize', handleResponsiveBG);
+  document.addEventListener('DOMContentLoaded', handleResponsiveBG);
+
+  // Vertex Shader
+  const vertexShader = `
+    attribute vec3 position;
+    void main() {
+      gl_Position = vec4(position, 1.0);
+    }
+  `;
+
+  // Fragment Shader
+  const fragmentShader = `
+    precision highp float;
+    uniform vec2 resolution;
+    uniform float time;
+    uniform float xScale;
+    uniform float yScale;
+    uniform float distortion;
+    void main() {
+      vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
+      float d = length(p) * distortion;
+      float rx = p.x * (1.0 + d);
+      float gx = p.x;
+      float bx = p.x * (1.0 - d);
+      float r = 0.05 / abs(p.y + sin((rx + time) * xScale) * yScale);
+      float g = 0.05 / abs(p.y + sin((gx + time) * xScale) * yScale);
+      float b = 0.05 / abs(p.y + sin((bx + time) * xScale) * yScale);
+      gl_FragColor = vec4(r, g, b, 1.0);
+    }
+  `;
+
+  class Stage {
+    renderParam: StageParams;
+    cameraParam: CameraParams;
+    scene: THREE.Scene | null;
+    camera: THREE.OrthographicCamera | null;
+    renderer: THREE.WebGLRenderer | null;
+    geometry: THREE.BufferGeometry | null;
+    material: THREE.Material | null;
+    mesh: THREE.Mesh | null;
+    isInitialized: boolean;
+
+    constructor() {
+      this.renderParam = {
+        clearColor: 0x666666,
+        width: window.innerWidth,
+        height: window.innerHeight
+      };
+
+      this.cameraParam = {
+        left: -1,
+        right: 1,
+        top: 1,
+        bottom: 1,
+        near: 0,
+        far: -1
+      };
+
+      this.scene = null;
+      this.camera = null;
+      this.renderer = null;
+      this.geometry = null;
+      this.material = null;
+      this.mesh = null;
+      this.isInitialized = false;
+    }
+
+    init() {
+      this._setScene();
+      this._setRender();
+      this._setCamera();
+      this.isInitialized = true;
+    }
+
+    _setScene() {
+      this.scene = new THREE.Scene();
+    }
+
+    _setRender() {
+      const canvas = document.getElementById("webgl-canvas");
+      if (!canvas || !(canvas instanceof HTMLCanvasElement)) return;
+      this.renderer = new THREE.WebGLRenderer({
+        canvas: canvas
+      });
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this._resizeRenderer();
+      this.renderer.setClearColor(new THREE.Color(this.renderParam.clearColor));
+    }
+
+    _setCamera() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      this.camera = new THREE.OrthographicCamera(
+        -1, 1, 1, -1, 0, 1
+      );
+      this.camera.updateProjectionMatrix();
+    }
+
+    _resizeRenderer() {
+      if (!this.renderer) return;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      this.renderer.setSize(width, height, false);
+      const canvas = this.renderer.domElement;
+      if (!canvas) return;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+    }
+
+    _render() {
+      if (this.renderer && this.scene && this.camera) {
+        this.renderer.render(this.scene, this.camera);
+      }
+    }
+
+    onResize() {
+      this._resizeRenderer();
+    }
+
+    onRaf() {
+      this._render();
+    }
+  }
+
+  class Mesh {
+    canvas: HTMLCanvasElement;
+    canvasWidth: number;
+    canvasHeight: number;
+    uniforms: MeshUniforms;
+    stage: Stage;
+    mesh: THREE.Mesh | null;
+    xScale: number;
+    yScale: number;
+    distortion: number;
+
+    constructor(stage: Stage) {
+      this.canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
+      this.canvasWidth = this.canvas.width;
+      this.canvasHeight = this.canvas.height;
+
+      this.stage = stage;
+      this.mesh = null;
+      this.uniforms = {
+        resolution: { value: [window.innerWidth, window.innerHeight] },
+        time: { value: 0.0 },
+        xScale: { value: 1.0 },
+        yScale: { value: 0.5 },
+        distortion: { value: 0.050 }
+      };
+      this.xScale = 1.0;
+      this.yScale = 0.5;
+      this.distortion = 0.050;
+    }
+
+    init() {
+      this._setMesh();
+    }
+
+    _setMesh() {
+      const position = [
+        -1.0, -1.0, 0.0,
+         1.0, -1.0, 0.0,
+        -1.0,  1.0, 0.0,
+         1.0, -1.0, 0.0,
+        -1.0,  1.0, 0.0,
+         1.0,  1.0, 0.0
+      ];
+
+      const positions = new THREE.BufferAttribute(new Float32Array(position), 3);
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute("position", positions);
+
+      const material = new THREE.RawShaderMaterial({
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        uniforms: this.uniforms,
+        side: THREE.DoubleSide
+      });
+
+      this.mesh = new THREE.Mesh(geometry, material);
+
+      if (this.stage.scene && this.mesh) {
+        this.stage.scene.add(this.mesh);
+      }
+    }
+    
+    _render() {
+      this.uniforms.time.value += 0.01;
+    }
+
+    onRaf() {
+      this._render();
+    }
+
+    onResize() {
+      this.uniforms.resolution.value = [window.innerWidth, window.innerHeight];
+    }
+  }
+
+  // Inicialización
+  document.addEventListener('DOMContentLoaded', () => {
+    const stage = new Stage();
+    stage.init();
+
+    const mesh = new Mesh(stage);
+    mesh.init();
+
+    window.addEventListener("resize", () => {
+      stage.onResize();
+      mesh.onResize();
+    });
+
+    const _raf = () => {
+      window.requestAnimationFrame(() => {
+        stage.onRaf();
+        mesh.onRaf();
+        _raf();
+      });
+    };
+
+    _raf();
+  });
+</script>
+
+<style>
+  #webgl-bg-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    min-width: 100vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  canvas {
+    width: 100vw;
+    height: 100vh;
+    min-width: 100vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    filter: brightness(60%);
+    display: block;
+  }
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+</style> 

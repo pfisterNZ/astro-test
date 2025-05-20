@@ -21,11 +21,11 @@ import Button from "./Button.astro";
     font-weight: 400;
     line-height: 1.4;
     letter-spacing: 0.05em;
-    color: white;
+    color: rgb(255, 255, 255);
   }
 </style>
 
-<section class="relative px-4 sm:px-8 md:px-12 lg:px-10 py-1 overflow-hidden min-h-screen bg-black">
+<section class="relative px-4 sm:px-8 md:px-12 lg:px-10 py-1 overflow-hidden min-h-screen">
     <div class="hero-content">
         <!-- CENTERED LOGO W LINES -->
         <span class="flex items-center py-4">
@@ -54,10 +54,11 @@ import Button from "./Button.astro";
 
         <!-- GUIDE BUTTONS -->
         <section class="flex flex-wrap flex-row items-center justify-center mt-20 sm:mt-30 md:mt-40 w-full gap-5">
+            <Button href="#contacto" text="Empezar" />
             <Button href="#proyectos" text="Proyectos" />
-            <Button href="#" text="Testimonios" />
-            <Button href="#" text="FAQ's" />
-            <Button href="#" text="Empezar" />
+            <Button href="#testimonios" text="Testimonios" />
+            <Button href="#faqs" text="FAQ's" />
         </section>
     </div>
 </section>
+

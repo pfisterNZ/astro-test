@@ -1,0 +1,73 @@
+---
+
+import CardsTestimonios from './CardsTestimonios.astro';
+---
+<section id="testimonios" class="w-full bg-black py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 flex flex-col items-center">
+  <div class="backG flex flex-col items-start text-start w-full max-w-7xl">
+    <h1 class="text-white mb-2 hero-title text-3xl sm:text-4xl md:text-5xl lg:text-[4rem]" style="font-family: 'Notable', sans-serif;">+5 clientes felices</h1>
+    <span class="text-gray-300 mb-8 sm:mb-10 text-start max-w-2xl text-base sm:text-lg">
+      FeedBack real de clientes que confiaron en nuestra experiencia en diseño para elevar sus marcas con éxito
+    </span>
+  </div>
+  <div class="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 items-stretch">
+    <div class="testimonial-anim h-full">
+      <CardsTestimonios
+        imagen="https://randomuser.me/api/portraits/men/32.jpg"
+        nombre="Nacho Medina"
+        cargo="Encargado de compras mayoristas"
+        testimonio="Hermano la verdad que los servicios con los que me ayudaste son un lujo, me sorprendiste con la calidad y la buena onda de tu trabajo, me siento mas que satisfecho con lo que haces y estoy dispuesto a trabajar con vos siempre!!"
+        valoracion={5}
+      />
+    </div>
+    <div class="testimonial-anim h-full">
+      <CardsTestimonios
+        imagen="https://randomuser.me/api/portraits/women/44.jpg"
+        nombre="Lucía Torres"
+        cargo="Directora de Marketing"
+        testimonio="Excelente atención y resultados. El diseño superó nuestras expectativas y la comunicación fue siempre clara y profesional. ¡Recomendado!"
+        valoracion={5}
+      />
+    </div>
+    <div class="testimonial-anim h-full">
+      <CardsTestimonios
+        imagen="https://randomuser.me/api/portraits/men/65.jpg"
+        nombre="Carlos Pérez"
+        cargo="CEO de StartUp"
+        testimonio="Muy conforme con el trabajo, la creatividad y la dedicación. Sin dudas volvería a elegirlos para futuros proyectos."
+        valoracion={4.5}
+      />
+    </div>
+  </div>
+  <script>
+    if (typeof window !== 'undefined') {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('testimonial-in');
+          }
+        });
+      }, { threshold: 0.2 });
+      document.querySelectorAll('.testimonial-anim').forEach(el => {
+        el.classList.add('testimonial-hidden');
+        observer.observe(el);
+      });
+    }
+  </script>
+</section>
+<style>
+.testimonial-hidden {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: all 0.7s cubic-bezier(.4,0,.2,1);
+}
+.testimonial-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 640px) {
+  .testimonial-hidden {
+    transform: translateX(-30px);
+  }
+}
+</style> 

@@ -4,3 +4,24 @@ body{
     background-color: #000000;
     color: #fff;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+}
+body::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 8px;
+  border: 2px solid #111;
+}
+body::-webkit-scrollbar-track {
+  background: #111;
+}
+
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #222 #111;
+}
