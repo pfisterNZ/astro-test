@@ -3,36 +3,61 @@ import Toph1 from "./Toph1.astro";
 import Button from "./Button.astro";
 ---
 
-<section class="px-4 sm:px-8 md:px-12 lg:px-20 py-5">
-    <!-- CENTERED LOGO W LINES -->
-    <span class="flex items-center py-4">
-        <span class="h-[1px] flex-1 bg-gray-300 dark:bg-gray-600"></span>
-        <span class="shrink-0 px-4">
-            <img
-                class="w-24 py-2 mx-auto"
-                src="https://framerusercontent.com/images/68d9W0p2L3PNaPy4Zg5IjWABE.png"
-                alt="logo"
-            />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Domine&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Notable&display=swap');
+
+  .hero-title {
+    font-family: 'Notable', sans-serif;
+    font-size: clamp(2.5rem, 2.5rem + 1vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: 0.05em;
+    color: white;
+    text-transform: uppercase;
+  }
+
+  .hero-subtitle {
+    font-family: 'Domine', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.05em;
+    color: white;
+  }
+</style>
+
+<section class="relative px-4 sm:px-8 md:px-12 lg:px-10 py-1 overflow-hidden min-h-screen bg-black">
+    <div class="hero-content">
+        <!-- CENTERED LOGO W LINES -->
+        <span class="flex items-center py-4">
+            <span class="h-[1px] flex-1 bg-gray-300 dark:bg-gray-600"></span>
+            <span class="shrink-0 px-4">
+                <img
+                    class="w-25 mx-auto"
+                    src="https://framerusercontent.com/images/68d9W0p2L3PNaPy4Zg5IjWABE.png"
+                    alt="logo"
+                />
+            </span>
+            <span class="h-[1px] flex-1 bg-gray-300 dark:bg-gray-600"></span>
         </span>
-        <span class="h-[1px] flex-1 bg-gray-300 dark:bg-gray-600"></span>
-    </span>
 
-    <!-- TITLE AND SUBTITLE -->
-    <div class="flex flex-col items-center text-center mt-40">
-        <Toph1 />
-        <h1 class="text-2xl sm:text-3xl font-bold pt-4 px-2">
-            ¿Ocupás mucho tiempo con la creación de contenido?
-        </h1>
-        <strong class="mt-2 text-base sm:text-lg px-2"
-            >Nosotros nos encargamos de su automatización</strong
-        >
+        <!-- TITLE AND SUBTITLE -->
+        <div class="flex flex-col items-center text-center mt-35">
+            <Toph1 />
+            
+            <h1 class="hero-title pt-4 px-2 mb-10">
+                ¿Ocupás mucho tiempo con la creación de contenido?
+            </h1>
+            <strong class="hero-subtitle mt-2 px-2"
+                >Nosotros nos encargamos de su automatización</strong
+            >
+        </div>
+
+        <!-- GUIDE BUTTONS -->
+        <section class="flex flex-wrap flex-row items-center justify-center mt-20 sm:mt-30 md:mt-40 w-full gap-5">
+            <Button href="#proyectos" text="Proyectos" />
+            <Button href="#" text="Testimonios" />
+            <Button href="#" text="FAQ's" />
+            <Button href="#" text="Empezar" />
+        </section>
     </div>
-
-    <!-- GUIDE BUTTONS -->
-    <section class="flex flex-wrap flex-row items-center justify-center mt-40 w-full gap-5">
-        <Button href="../#MuestraTestimonios" text="Proyectos" />
-        <Button href="#" text="Testimonios" />
-        <Button href="#" text="FAQ's" />
-        <Button href="#" text="Empezar" />
-    </section>
 </section>

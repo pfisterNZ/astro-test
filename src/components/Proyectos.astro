@@ -1,0 +1,86 @@
+---
+import Cards from "./Cards.astro"
+---
+
+<!--cards-->
+<div id="proyectos" class="relative mx-10 mt-25 p-10 border-t border-x border-white/20 rounded-t-4xl overflow-hidden z-10">
+
+    <!-- Halo animado solo en el borde -->
+    <div class="pointer-events-none absolute inset-0 rounded-t-4 z-0"
+         style="
+           background: linear-gradient(90deg, 
+             transparent 0%, 
+             transparent 40%, 
+             #ffffff55 50%, 
+             transparent 60%, 
+             transparent 100%
+           );
+           background-size: 200% 100%;
+           animation: borderShine 3s linear infinite;
+           -webkit-mask: 
+             linear-gradient(#000 0 0) content-box, 
+             linear-gradient(#000 0 0);
+           -webkit-mask-composite: xor;
+           mask-composite: exclude;
+           padding: 2px;
+         ">
+    </div>
+  
+    <!-- Contenido real -->
+    <div class="relative z-10">
+      <strong class="flex justify-center text-3xl text-white font-bold mb-1">
+        Proyectos
+      </strong>
+  
+      <!-- Línea decorativa -->
+      <div class="flex justify-center mb-10">
+        <div class="h-[2px] w-32 bg-white/60 rounded-full"></div>
+      </div>
+  
+      <section
+        id="muestra"
+        class="mt-10 flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-4"
+      >
+        <Cards
+          href="#muestra"
+          image="https://framerusercontent.com/assets/z0uwRhQMdFZ3TgjIX7bI3JrX3w.mp4"
+          role="Content Creator"
+          name="ByMaximise"
+          description="Creador de contenido para Instagram"
+        />
+        <!-- Otros cards... -->
+        <Cards
+        href="#muestra"
+        image="https://framerusercontent.com/assets/OVSUFQrhxAAScwi4lqvfZAVuNlY.mp4"
+        role="Podcaster"
+        name="Empresarios Con Impacto"
+        description="Podcast de emprendedores"
+        />
+        <Cards
+          href="#muestra"
+          image="https://framerusercontent.com/assets/yXEAknbluvjJnUsgL5YKR6W0AQ.mp4"
+          role="Video Editor"
+          name="Baltasca"
+          description="Editor de videos profesional"
+        />
+        <Cards
+          href="#muestra"
+          image="https://framerusercontent.com/assets/NZgak3Xoj2fCputAcgCelilzX4.mp4"
+          role="YouTuber"
+          name="Adrian Saenz"
+          description="Emprendedor y creador de contenido para YouTube"
+        />
+      </section>
+    </div>
+  </div>
+  
+<style>
+  @keyframes borderShine {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+</style> 

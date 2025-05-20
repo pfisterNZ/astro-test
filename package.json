@@ -6,11 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "devToolbar": "false"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
-    "astro": "^5.7.13"
+    "astro": "^5.7.13",
+    "tailwindcss-intersect": "^2.2.0"
   },
   "devDependencies": {
     "tailwindcss": "^4.1.7"
